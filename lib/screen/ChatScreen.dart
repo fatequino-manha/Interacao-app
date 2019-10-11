@@ -1,3 +1,4 @@
+import 'package:fatequino_app/screen/ChoiceScreen.dart';
 import 'package:fatequino_app/screen/widgets/mensage.dart';
 import 'package:flutter/material.dart';
 import 'style.dart' as style;
@@ -107,55 +108,47 @@ class _ChatScreen extends State<ChatScreen> {
       icon: Icon(Icons.send),
       color: Colors.yellow,
       onPressed: () {
-        Future.delayed(
-          Duration(milliseconds: 50),
-          () {
-            txt.clear();
-            setState(
-              () {
-                if(api.ligado){
-                api.sendMensagem(mensagem: this._text).then((value) {
-                  print("passei aqui");
-                  if (value == ""){
-                    throw ("erro");
-                  }
-                  _chatMensagem.add(
-                    Mensagem(
-                      mensagem: this._text,
-                      minha: true,
-                    ),
-                  );
-                  _chatMensagem.add(
-                    Mensagem(
-                      mensagem: value,
-                      minha: false,
-                    ),
-                  );
-                }).catchError((){
-                  print("e aqui tambem");
-                  Navigator.of(context).pop();
-                });
-                }
-                else{
-                  _chatMensagem.add(
-                    Mensagem(
-                      mensagem: this._text,
-                      minha: true,
-                    ),
-                  );
-                  _chatMensagem.add(
-                    Mensagem(
-                      mensagem: "Mensagem fatequino",
-                      minha: false,
-                    ),
-                  );
-                }
-                this._text = "";
-                this.selectbutton(2);
-              },
+        if (api.ligado) {
+          api.sendMensagem(mensagem: this._text).then((value) {
+            print("passei aqui");
+            _chatMensagem.add(
+              Mensagem(
+                mensagem: this._text,
+                minha: true,
+              ),
             );
-          },
-        );
+            _chatMensagem.add(
+              Mensagem(
+                mensagem: value,
+                minha: false,
+              ),
+            );
+            this._text = "";
+            Future.delayed(Duration(milliseconds: 50), () {
+              this.selectbutton(2);
+            });
+          });
+        } else {
+          _chatMensagem.add(
+            Mensagem(
+              mensagem: this._text,
+              minha: true,
+            ),
+          );
+          _chatMensagem.add(
+            Mensagem(
+              mensagem: "Mensagem fatequino",
+              minha: false,
+            ),
+          );
+        }
+        Future.delayed(Duration(milliseconds: 50), () {
+          this.setState(() {
+            txt.clear();
+            this._text = "";
+            this.selectbutton(2);
+          });
+        });
       },
     );
   }

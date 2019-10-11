@@ -38,18 +38,17 @@ Future<String> sendMensagem({String mensagem}) async {
   if (_host == null) {
     throw ("host Null");
   }
-  var response;
-  try {
-    response = await http.post("http://$host:$port/",
-        body: '"text":"$mensagem"',
-        headers: {"Content-Type": "application/json"});
-  } catch (e) {
-    return "";
-  }
+  // http://$host:$port
+  print("$host,$port");
+  print(mensagem);
+  var response = await http.post('http://192.168.0.105:8080/',
+      body: '{"text":"$mensagem"}',
+      headers: {"content-type": "application/json"});
   if (response.statusCode != 200) {
-    throw ("erro");
+    throw ("${response.body}");
   }
   var fatequino_resposta = jsonDecode(response.body);
+  print(response.body);
 
   return fatequino_resposta['text'];
 }
