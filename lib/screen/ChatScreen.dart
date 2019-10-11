@@ -123,10 +123,6 @@ class _ChatScreen extends State<ChatScreen> {
                 minha: false,
               ),
             );
-            this._text = "";
-            Future.delayed(Duration(milliseconds: 50), () {
-              this.selectbutton(2);
-            });
           });
         } else {
           _chatMensagem.add(
