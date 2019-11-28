@@ -6,7 +6,14 @@ import 'dart:convert';
 
 String _host = null;
 String _port = null;
+String _httpP = null;
 bool ligado = false;
+
+String get httpP => _httpP;
+
+set httpP(value){
+  _httpP = value;
+}
 
 String get host => _host;
 
@@ -19,13 +26,16 @@ set port(value) {
   _port = value;
 }
 
+
+
 makeConnection() async {
   if (_host == null) {
     throw ("host Null");
   }
   String text = "Erro";
   var d = await Timer(Duration(seconds: 10), () async {
-    var response = await http.post("http://$host:$port/...");
+    // var response = await http.post("http://$host:$port/");
+    var response = await http.post("http://192.168.0.114:8080/");
     if (response.statusCode != 200) {
       throw ("erro");
     }
@@ -35,13 +45,14 @@ makeConnection() async {
 }
 
 Future<String> sendMensagem({String mensagem}) async {
-  if (_host == null) {
-    throw ("host Null");
-  }
+  // if (_host == null) {
+  //   throw ("host Null");
+  // }
   // http://$host:$port
   print("$host,$port");
   print(mensagem);
-  var response = await http.post('http://192.168.0.105:8080/',
+  // var response = await http.post('${_httpP}://${_host}:${_port}/',
+  var response = await http.post("http://192.168.0.114:8080/",
       body: '{"text":"$mensagem"}',
       headers: {"content-type": "application/json"});
   if (response.statusCode != 200) {

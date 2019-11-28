@@ -4,6 +4,7 @@ import 'package:fatequino_app/services/Apis_call.dart' as api;
 class DrawerCuston extends StatefulWidget {
   String host;
   String port;
+  String httpP;
   @override
   _DrawerCustonState createState() => _DrawerCustonState();
 }
@@ -23,17 +24,23 @@ class _DrawerCustonState extends State<DrawerCuston> {
             decoration: InputDecoration(hintText: "Port"),
             onChanged: (e) => widget.port = e,
           ),
+          TextField(
+            decoration: InputDecoration(hintText: "http"),
+            onChanged: (e) => widget.httpP = e,
+          ),
           FlatButton(
             child: Text("Alterar"),
             onPressed: () {
               setState(() {
                 api.host = widget.host;
                 api.port = widget.port;
+                api.httpP = widget.httpP;
               });
             },
           ),
           Text("host: ${api.host}"),
           Text("port: ${api.port}"),
+          Text("http: ${api.httpP}"),
           Spacer(),
           Switch(
             onChanged: (e) {

@@ -10,9 +10,9 @@ class ChoiceScreen extends StatelessWidget {
       child: Scaffold(
         drawer: Drawer(
           child: DrawerCuston(),
-        ) ,
+        ),
         appBar: AppBar(
-          backgroundColor: style.secundaryColor ,
+          backgroundColor: style.secundaryColor,
           title: Text(
             "FATEQUINO :)",
             style: TextStyle(
@@ -40,7 +40,7 @@ class ChoiceScreen extends StatelessWidget {
                 margin: EdgeInsets.all(5),
                 child: IconButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => ChatScreen(),
@@ -81,6 +81,12 @@ class ChoiceScreen extends StatelessWidget {
                     color: style.colorPrimary,
                     fontSize: 30,
                   ),
+                ),
+              ),
+              Container(
+                child: Text(
+                  "Versão 0.01",
+                  style: TextStyle(color: style.colorPrimary),
                 ),
               )
             ],

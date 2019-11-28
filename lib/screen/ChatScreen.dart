@@ -1,4 +1,5 @@
 import 'package:fatequino_app/screen/ChoiceScreen.dart';
+import 'package:fatequino_app/screen/buttonAudio.dart';
 import 'package:fatequino_app/screen/widgets/mensage.dart';
 import 'package:flutter/material.dart';
 import 'style.dart' as style;
@@ -18,10 +19,10 @@ class _ChatScreen extends State<ChatScreen> {
   static List<Widget> _chatMensagem = [];
   static ScrollController _scroolController = new ScrollController();
   bool _sendEnabled = false;
-  IconButton _button;
+  Widget _button;
 
   _ChatScreen() {
-    _button = audioButton();
+    _button = AudioButton();
   }
 
   String _text = "";
@@ -92,7 +93,7 @@ class _ChatScreen extends State<ChatScreen> {
       _button = this.sendMensagemButton();
     }
     if (widget == 2) {
-      _button = this.audioButton();
+      _button = AudioButton();
     }
   }
 
@@ -110,17 +111,28 @@ class _ChatScreen extends State<ChatScreen> {
       onPressed: () {
         if (api.ligado) {
           api.sendMensagem(mensagem: this._text).then((value) {
+            Widget meu;
+            Widget fatequino;
             print("passei aqui");
-            _chatMensagem.add(
-              Mensagem(
-                mensagem: this._text,
-                minha: true,
-              ),
+            meu = Mensagem(
+              mensagem: this._text,
+              minha: true,
             );
-            _chatMensagem.add(
-              Mensagem(
-                mensagem: value,
-                minha: false,
+            fatequino = Mensagem(
+              mensagem: value,
+              minha: false,
+            );
+            setState(() {
+              _chatMensagem.add(meu);
+              _chatMensagem.add(fatequino);
+              cleanInput();
+            });
+          }).catchError((erro) {
+            debugPrint(erro.toString());
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ChoiceScreen(),
               ),
             );
           });
@@ -137,15 +149,19 @@ class _ChatScreen extends State<ChatScreen> {
               minha: false,
             ),
           );
+          cleanInput();
         }
-        Future.delayed(Duration(milliseconds: 50), () {
-          this.setState(() {
-            txt.clear();
-            this._text = "";
-            this.selectbutton(2);
-          });
-        });
       },
     );
+  }
+
+  void cleanInput() async {
+    Future.delayed(Duration(milliseconds: 100), () {
+      this.setState(() {
+        txt.clear();
+        this._text = "";
+        this.selectbutton(2);
+      });
+    });
   }
 }
