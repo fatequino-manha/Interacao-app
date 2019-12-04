@@ -22,7 +22,14 @@ class _ChatScreen extends State<ChatScreen> {
   Widget _button;
 
   _ChatScreen() {
-    _button = AudioButton();
+    _button = AudioButton(this.add);
+  }
+
+  void add(Mensagem eu, Mensagem fatequino){
+    setState(() {
+      _chatMensagem.add(eu);
+      _chatMensagem.add(fatequino);
+    });
   }
 
   String _text = "";
@@ -93,7 +100,7 @@ class _ChatScreen extends State<ChatScreen> {
       _button = this.sendMensagemButton();
     }
     if (widget == 2) {
-      _button = AudioButton();
+      _button = AudioButton(this.add);
     }
   }
 
@@ -109,7 +116,7 @@ class _ChatScreen extends State<ChatScreen> {
       icon: Icon(Icons.send),
       color: Colors.yellow,
       onPressed: () {
-        if (api.ligado) {
+        if (!api.ligado) {
           api.sendMensagem(mensagem: this._text).then((value) {
             Widget meu;
             Widget fatequino;

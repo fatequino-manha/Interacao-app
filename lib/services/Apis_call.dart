@@ -28,31 +28,27 @@ set port(value) {
 
 
 
-makeConnection() async {
-  if (_host == null) {
-    throw ("host Null");
-  }
-  String text = "Erro";
-  var d = await Timer(Duration(seconds: 10), () async {
-    // var response = await http.post("http://$host:$port/");
-    var response = await http.post("http://192.168.0.114:8080/");
-    if (response.statusCode != 200) {
-      throw ("erro");
-    }
-    text = response.body;
-  });
-  return text;
-}
+// makeConnection() async {
+//   if (_host == null) {
+//     throw ("host Null");
+//   }
+//   String text = "Erro";
+//   var d = await Timer(Duration(seconds: 10), () async {
+//     // var response = await http.post("http://$host:$port/");
+//     var response = await http.post("http://192.168.0.114:8080/");
+//     if (response.statusCode != 200) {
+//       throw ("erro");
+//     }
+//     text = response.body;
+//   });
+//   return text;
+// }
 
 Future<String> sendMensagem({String mensagem}) async {
-  // if (_host == null) {
-  //   throw ("host Null");
-  // }
-  // http://$host:$port
   print("$host,$port");
   print(mensagem);
   // var response = await http.post('${_httpP}://${_host}:${_port}/',
-  var response = await http.post("http://192.168.0.114:8080/",
+  var response = await http.post("http://192.168.0.114:8080/", // << coloque o url aqui
       body: '{"text":"$mensagem"}',
       headers: {"content-type": "application/json"});
   if (response.statusCode != 200) {

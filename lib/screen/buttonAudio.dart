@@ -1,8 +1,12 @@
+import 'package:fatequino_app/screen/widgets/mensage.dart';
 import "package:flutter/material.dart";
 import 'package:speech_recognition/speech_recognition.dart';
+import 'package:fatequino_app/services/Apis_call.dart' as api;
 
 class AudioButton extends StatefulWidget {
-  String texto;
+  AudioButton(this.send);
+  Function send;
+  List<Widget> lista;
   @override
   _AudioButtonState createState() => _AudioButtonState();
 }
@@ -13,8 +17,10 @@ class _AudioButtonState extends State<AudioButton> {
   String _currentLocale;
   bool _isListening = false;
   bool _end = true;
-
-  _AudioButtonState() {
+  String _texto;
+  @override
+  void initState() {
+    super.initState();
     loadSpeech();
   }
 
@@ -40,8 +46,7 @@ class _AudioButtonState extends State<AudioButton> {
 
     _speech.setRecognitionResultHandler((String texto) {
       setState(() {
-        widget.texto = texto;
-        _end = true;
+        _texto = texto;
       });
     });
 
@@ -49,6 +54,17 @@ class _AudioButtonState extends State<AudioButton> {
       setState(() {
         _isListening = false;
       });
+      if (_isListening) {
+        Mensagem eu = Mensagem(
+          mensagem: _texto,
+          minha: true,
+        );
+        Mensagem fatequino = Mensagem(
+          mensagem: "oi",
+          minha: false,
+        );
+        widget.send(eu, fatequino);
+      }
     });
 
     _speech.activate().then((res) {
@@ -62,10 +78,20 @@ class _AudioButtonState extends State<AudioButton> {
   build(BuildContext context) {
     return IconButton(
       icon: Icon(_isListening ? Icons.stop : Icons.mic),
-      onPressed: () async {
-        print("\n\n\n$_isListening\n\n\n\n");
-        var retorno = await _speech.listen(locale: _currentLocale);
-        print("$retorno");
+      onPressed: () {
+        // if (_isListening) {
+        //   _speech.stop().then((value) {
+        //     _isListening = value;
+        //   });
+        // } else {
+        // }
+        if (!_isListening) {
+          _speech.listen(locale: _currentLocale).then((value) {
+            print("\n\n\n");
+            _isListening = value;
+            print("\n\n\n");
+          });
+        }
       },
     );
   }
