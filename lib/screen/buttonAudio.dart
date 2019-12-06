@@ -1,11 +1,11 @@
-import 'package:fatequino_app/screen/widgets/mensage.dart';
 import "package:flutter/material.dart";
 import 'package:speech_recognition/speech_recognition.dart';
-import 'package:fatequino_app/services/Apis_call.dart' as api;
 
 class AudioButton extends StatefulWidget {
-  AudioButton(this.send);
-  Function send;
+  AudioButton(this.send, this.value);
+  TextEditingController send;
+  String texto;
+  var value;
   List<Widget> lista;
   @override
   _AudioButtonState createState() => _AudioButtonState();
@@ -16,8 +16,6 @@ class _AudioButtonState extends State<AudioButton> {
   bool _speechRecognitionAvaliable = false;
   String _currentLocale;
   bool _isListening = false;
-  bool _end = true;
-  String _texto;
   @override
   void initState() {
     super.initState();
@@ -46,25 +44,17 @@ class _AudioButtonState extends State<AudioButton> {
 
     _speech.setRecognitionResultHandler((String texto) {
       setState(() {
-        _texto = texto;
+        widget.send.text = texto;
+        widget.value._text = texto;
+        widget.value.sets();
       });
     });
 
     _speech.setRecognitionCompleteHandler(() {
       setState(() {
         _isListening = false;
+        widget.value.sets();
       });
-      if (_isListening) {
-        Mensagem eu = Mensagem(
-          mensagem: _texto,
-          minha: true,
-        );
-        Mensagem fatequino = Mensagem(
-          mensagem: "oi",
-          minha: false,
-        );
-        widget.send(eu, fatequino);
-      }
     });
 
     _speech.activate().then((res) {
@@ -77,22 +67,11 @@ class _AudioButtonState extends State<AudioButton> {
   @override
   build(BuildContext context) {
     return IconButton(
-      icon: Icon(_isListening ? Icons.stop : Icons.mic),
-      onPressed: () {
-        // if (_isListening) {
-        //   _speech.stop().then((value) {
-        //     _isListening = value;
-        //   });
-        // } else {
-        // }
-        if (!_isListening) {
-          _speech.listen(locale: _currentLocale).then((value) {
-            print("\n\n\n");
-            _isListening = value;
-            print("\n\n\n");
-          });
-        }
-      },
-    );
+        icon: Icon(_isListening ? Icons.stop : Icons.mic),
+        onPressed: () {
+          _speech
+              .listen(locale: _currentLocale)
+              .then((value) { print("$value");});
+        });
   }
 }

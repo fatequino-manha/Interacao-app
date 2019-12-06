@@ -8,7 +8,6 @@ class Mensagem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Align(
       alignment: this.minha ? Alignment.topRight : Alignment.topLeft,
       child: Container(

@@ -85,7 +85,7 @@ class ChoiceScreen extends StatelessWidget {
               ),
               Container(
                 child: Text(
-                  "Versão 0.01",
+                  "Versão 0.10",
                   style: TextStyle(color: style.colorPrimary),
                 ),
               )
