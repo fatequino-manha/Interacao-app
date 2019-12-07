@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fatequino_app/services/Apis_call.dart' as api;
 
 class DrawerCuston extends StatefulWidget {
+  /** Drawer de configuraçoes do fatequino para conexão 
+   * Classe não permanente apenas usada para conectar a api.
+  */
   String host;
   String port;
   String httpP;

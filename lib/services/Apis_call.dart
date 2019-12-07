@@ -1,5 +1,7 @@
 library fatequino.api;
 
+/** Biblioteca para comunicação com as api do fatequino */
+
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
@@ -28,9 +30,7 @@ set port(value) {
 
 Future<String> sendMensagem({String mensagem}) async {
   print("$host,$port");
-  // print(mensagem);
   var response = await http.post('${_httpP}://${_host}:${_port}/',
-  // var response = await http.post("http://192.168.0.114:8080/", // << coloque o url aqui
       body: '{"text":"$mensagem"}',
       headers: {"content-type": "application/json"});
   if (response.statusCode != 200) {

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'style.dart' as style;
 
 class ChoiceScreen extends StatelessWidget {
+  /** Tela de escolha da comunicação (Wifi / bluetooth) */
   @override
   Widget build(BuildContext context) {
     return SafeArea(

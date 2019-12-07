@@ -1,5 +1,4 @@
 import 'package:fatequino_app/screen/ChoiceScreen.dart';
-import 'package:fatequino_app/screen/buttonAudio.dart';
 import 'package:fatequino_app/screen/widgets/mensage.dart';
 import 'package:flutter/material.dart';
 import 'package:speech_recognition/speech_recognition.dart';
@@ -7,6 +6,7 @@ import 'style.dart' as style;
 import 'package:fatequino_app/services/Apis_call.dart' as api;
 
 class ChatScreen extends StatefulWidget {
+  /**  Tela do chat */
   @override
   State<StatefulWidget> createState() {
     return _ChatScreen();
@@ -17,7 +17,6 @@ class _ChatScreen extends State<ChatScreen> {
   static TextEditingController txt = TextEditingController();
   static FocusNode _focusNode = new FocusNode();
   static List<Widget> _chatMensagem = [];
-  Widget _button;
   String _text = "";
   SpeechRecognition _speech;
 
@@ -83,16 +82,17 @@ class _ChatScreen extends State<ChatScreen> {
   }
 
   Widget sendMensagemButton() {
+    /** Widget do botão de enviar mensagem */
     return IconButton(
       icon: Icon(Icons.send),
       color: Colors.yellow,
       onPressed: _text.trim().isNotEmpty
           ? () {
+            /** if para escolher se app esta no modo teste ou ele envia algo para api */
               if (!api.ligado) {
                 api.sendMensagem(mensagem: this._text.trim()).then((value) {
                   Widget meu;
                   Widget fatequino;
-                  print("passei aqui");
                   meu = Mensagem(
                     mensagem: this._text,
                     minha: true,
@@ -136,6 +136,7 @@ class _ChatScreen extends State<ChatScreen> {
   }
 
   void cleanInput() async {
+    /** Função para limpa o campo de input quando a mensagem é enviada */
     Future.delayed(Duration(milliseconds: 100), () {
       this.setState(() {
         txt.clear();
@@ -145,6 +146,7 @@ class _ChatScreen extends State<ChatScreen> {
   }
 
   Widget audiobutton() {
+    /** Widget do botão de gravar audio */
     _speech = SpeechRecognition();
     _speech.setAvailabilityHandler((bool result) {
       setState(() {

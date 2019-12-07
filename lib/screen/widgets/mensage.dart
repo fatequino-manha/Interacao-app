@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fatequino_app/screen/style.dart' as style;
 
 class Mensagem extends StatelessWidget {
+  /** Widget de mensagem */
   Mensagem({Key key, this.mensagem, this.minha = false});
   String mensagem;
   bool minha;
